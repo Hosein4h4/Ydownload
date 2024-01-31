@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphic Video Downloader</title>
+</head>
+<body style="text-align: center;">
+
+    <h1>Graphic Video Downloader</h1>
+
+    <div style="margin: 20px;">
+        <label for="videoLink">لینک ویدیو:</label>
+        <input type="text" id="videoLink" placeholder="لینک ویدیو را وارد کنید" style="margin-right: 10px;">
+        <button onclick="autoDownloadVideo()">دانلود ویدیو</button>
+    </div>
+
+    <script>
+        function autoDownloadVideo() {
+            var videoLink = document.getElementById('videoLink').value;
+            if (videoLink) {
+                fetch(videoLink).then(response => {
+                    var contentType = response.headers.get('content-type');
+                    var extension = contentType.split('/')[1];
+                    return response.blob().then(blob => {
+                        var a = document.createElement('a');
+                        a.href = window.URL.createObjectURL(blob);
+                        a.download = 'video.' + extension;
+                        a.style.display = 'none';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    });
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
