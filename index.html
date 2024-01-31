@@ -1,53 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphic Video Downloader</title>
-</head>
-<body style="text-align: center;">
-
-    <h1>Graphic Video Downloader</h1>
-
-    <div style="margin: 20px;">
-        <label for="videoLink">لینک ویدیو:</label>
-        <input type="text" id="videoLink" placeholder="لینک ویدیو را وارد کنید" style="margin-right: 10px;">
-        <button onclick="autoDownloadVideo()">دانلود ویدیو</button>
-    </div>
-
-    <script>
-        function autoDownloadVideo() {
-            var videoLink = document.getElementById('videoLink').value;
-            if (videoLink) {
-                fetch(videoLink)
-                    .then(response => {
-                        console.log('Response Status:', response.status);
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        var contentType = response.headers.get('content-type');
-                        console.log('Content Type:', contentType);
-                        var extension = contentType.split('/')[1];
-                        return response.blob().then(blob => {
-                            var a = document.createElement('a');
-                            a.href = window.URL.createObjectURL(blob);
-                            a.download = 'video.' + extension;
-                            a.style.display = 'none';
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error during video download:', error);
-                        alert('مشکلی در دانلود ویدیو به وجود آمد. لطفاً مجدداً تلاش کنید یا لینک ویدیو را بررسی کنید.');
-                    });
-            } else {
-                alert('لطفاً لینک ویدیو را وارد کنید.');
-            }
-        }
-    </script>
-
-</body>
-</html>
+{
+  "name": "instagram-url-direct",
+  "version": "1.0.13",
+  "description": "Get direct url to download from Instagram media links",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node src/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorsouzaleal/instagram-direct-url.git"
+  },
+  "keywords": [
+    "instagram",
+    "downloader",
+    "media",
+    "link",
+    "photo",
+    "video",
+    "url",
+    "picture",
+    "image",
+    "download"
+  ],
+  "author": "victorsouzaleal <victorsouzaleal@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/victorsouzaleal/instagram-direct-url/issues"
+  },
+  "homepage": "https://github.com/victorsouzaleal/instagram-direct-url#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
