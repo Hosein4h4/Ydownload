@@ -20,19 +20,31 @@
         function autoDownloadVideo() {
             var videoLink = document.getElementById('videoLink').value;
             if (videoLink) {
-                fetch(videoLink).then(response => {
-                    var contentType = response.headers.get('content-type');
-                    var extension = contentType.split('/')[1];
-                    return response.blob().then(blob => {
-                        var a = document.createElement('a');
-                        a.href = window.URL.createObjectURL(blob);
-                        a.download = 'video.' + extension;
-                        a.style.display = 'none';
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
+                fetch(videoLink)
+                    .then(response => {
+                        console.log('Response Status:', response.status);
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        var contentType = response.headers.get('content-type');
+                        console.log('Content Type:', contentType);
+                        var extension = contentType.split('/')[1];
+                        return response.blob().then(blob => {
+                            var a = document.createElement('a');
+                            a.href = window.URL.createObjectURL(blob);
+                            a.download = 'video.' + extension;
+                            a.style.display = 'none';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error during video download:', error);
+                        alert('مشکلی در دانلود ویدیو به وجود آمد. لطفاً مجدداً تلاش کنید یا لینک ویدیو را بررسی کنید.');
                     });
-                });
+            } else {
+                alert('لطفاً لینک ویدیو را وارد کنید.');
             }
         }
     </script>
